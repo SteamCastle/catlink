@@ -38,5 +38,134 @@
         "title": "Manage devices"
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "state": {
+        "name": "State"
+      },
+      "last_log": {
+        "name": "Last Log"
+      },
+      "litter_weight": {
+        "name": "Litter Weight"
+      },
+      "litter_remaining_days": {
+        "name": "Litter Remaining Days"
+      },
+      "total_clean_time": {
+        "name": "Total Clean Count"
+      },
+      "manual_clean_time": {
+        "name": "Manual Clean Count"
+      },
+      "deodorant_countdown": {
+        "name": "Deodorant Countdown"
+      },
+      "occupied": {
+        "name": "Occupied"
+      },
+      "online": {
+        "name": "Online"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "error": {
+        "name": "Error"
+      },
+      "weight": {
+        "name": "Weight"
+      },
+      "water_level": {
+        "name": "Water Level"
+      },
+      "filter_life": {
+        "name": "Filter Life"
+      }
+    },
+    "binary_sensor": {
+      "occupied": {
+        "name": "Occupied"
+      },
+      "online": {
+        "name": "Online"
+      },
+      "uv_active": {
+        "name": "UV Active"
+      },
+      "heating": {
+        "name": "Heating"
+      },
+      "light_active": {
+        "name": "Light Active"
+      },
+      "hair_cleaning": {
+        "name": "Hair Cleaning"
+      }
+    },
+    "select": {
+      "mode": {
+        "name": "Mode",
+        "state": {
+          "auto": "Auto",
+          "manual": "Manual",
+          "time": "Time",
+          "empty": "Empty"
+        }
+      },
+      "action": {
+        "name": "Action",
+        "state": {
+          "pause": "Pause",
+          "start": "Start",
+          "clean": "Clean",
+          "cancel": "Cancel",
+          "pave": "Pave"
+        }
+      }
+    },
+    "switch": {
+      "quiet_mode": {
+        "name": "Quiet Mode"
+      },
+      "child_lock": {
+        "name": "Child Lock"
+      },
+      "light": {
+        "name": "Light"
+      },
+      "tone": {
+        "name": "Tone"
+      }
+    },
+    "button": {
+      "feed": {
+        "name": "Feed"
+      },
+      "reset_litter": {
+        "name": "Reset Litter"
+      },
+      "reset_deodorant": {
+        "name": "Reset Deodorant"
+      },
+      "clean": {
+        "name": "Clean"
+      },
+      "pause": {
+        "name": "Pause"
+      },
+      "change_garbage_bag": {
+        "name": "Change Garbage Bag"
+      }
+    },
+    "number": {
+      "portions": {
+        "name": "Portions"
+      }
+    }
   }
 }
