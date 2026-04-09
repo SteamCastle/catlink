@@ -23,10 +23,11 @@ class CatlinkEntity(CoordinatorEntity):
         self._device = device
         self._option = option or {}
         display_name = self._option.get("name", name)
+        # translation_key must be unique per device type for i18n to work correctly
         self._attr_name = f"{device.name} {display_name}".strip()
         self._attr_device_id = f"{device.type}_{device.mac}"
         self._attr_unique_id = f"{self._attr_device_id}-{name}"
-        self._attr_translation_key = name
+        self._attr_translation_key = f"{device.type}_{name}"
         mac = device.mac[-4:] if device.mac else device.id
         object_id = f"{device.type}_{mac}_{name}"
         self.entity_id = f"{DOMAIN}.{slugify(object_id)}"

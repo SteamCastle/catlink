@@ -41,82 +41,52 @@
   },
   "entity": {
     "sensor": {
-      "state": {
-        "name": "状态"
-      },
-      "last_log": {
-        "name": "最近日志"
-      },
-      "litter_weight": {
-        "name": "猫砂重量"
-      },
-      "litter_remaining_days": {
-        "name": "猫砂剩余天数"
-      },
-      "total_clean_time": {
-        "name": "总清理次数"
-      },
-      "manual_clean_time": {
-        "name": "手动清理次数"
-      },
-      "deodorant_countdown": {
-        "name": "除臭剂倒计时"
-      },
-      "occupied": {
-        "name": "占用状态"
-      },
-      "online": {
-        "name": "在线状态"
-      },
-      "temperature": {
-        "name": "温度"
-      },
-      "humidity": {
-        "name": "湿度"
-      },
-      "error": {
-        "name": "错误"
-      },
-      "weight": {
-        "name": "重量"
-      },
-      "water_level": {
-        "name": "水量"
-      },
-      "filter_life": {
-        "name": "滤芯寿命"
-      },
-      "garbage_tobe_status": {
-        "name": "垃圾盒状态"
-      },
-      "knob_status": {
-        "name": "旋钮状态"
-      },
-      "last_sync": {
-        "name": "最后同步"
-      },
-      "wifi_rssi": {
-        "name": "WiFi信号"
-      },
-      "wifi_ssid": {
-        "name": "WiFi名称"
-      },
-      "stats_times": {
-        "name": "统计次数"
-      },
-      "stats_weight_avg": {
-        "name": "平均体重"
-      },
-      "stats_duration_avg": {
-        "name": "平均时长"
-      },
-      "notice_config_count": {
-        "name": "通知配置数"
-      },
-      "pet_stats_count": {
-        "name": "宠物统计数"
-      },
-      "gender_label": {
+      "C08_state": { "name": "状态" },
+      "C08_last_log": { "name": "最近日志" },
+      "C08_litter_weight": { "name": "猫砂重量" },
+      "C08_litter_remaining_days": { "name": "猫砂剩余天数" },
+      "C08_total_clean_time": { "name": "总清理次数" },
+      "C08_manual_clean_time": { "name": "手动清理次数" },
+      "C08_deodorant_countdown": { "name": "除臭剂倒计时" },
+      "SCOOPER_state": { "name": "状态" },
+      "SCOOPER_occupied": { "name": "占用状态" },
+      "SCOOPER_online": { "name": "在线状态" },
+      "SCOOPER_temperature": { "name": "温度" },
+      "SCOOPER_humidity": { "name": "湿度" },
+      "SCOOPER_error": { "name": "错误" },
+      "SCOOPER_litter_weight": { "name": "猫砂重量" },
+      "SCOOPER_deodorant_countdown": { "name": "除臭剂倒计时" },
+      "LITTER_BOX_599_state": { "name": "状态" },
+      "LITTER_BOX_599_litter_weight": { "name": "猫砂重量" },
+      "LITTER_BOX_599_litter_remaining_days": { "name": "猫砂剩余天数" },
+      "LITTER_BOX_599_total_clean_time": { "name": "总清理次数" },
+      "LITTER_BOX_599_manual_clean_time": { "name": "手动清理次数" },
+      "LITTER_BOX_599_deodorant_countdown": { "name": "除臭剂倒计时" },
+      "LITTER_BOX_599_occupied": { "name": "占用状态" },
+      "LITTER_BOX_599_online": { "name": "在线状态" },
+      "LITTER_BOX_599_temperature": { "name": "温度" },
+      "LITTER_BOX_599_humidity": { "name": "湿度" },
+      "LITTER_BOX_599_error": { "name": "错误" },
+      "FEEDER_state": { "name": "状态" },
+      "FEEDER_weight": { "name": "重量" },
+      "FEEDER_online": { "name": "在线状态" },
+      "FEEDER_error": { "name": "错误" },
+      "FEEDER_last_sync": { "name": "最后同步" },
+      "PUREPRO_state": { "name": "状态" },
+      "PUREPRO_weight": { "name": "重量" },
+      "PUREPRO_water_level": { "name": "水量" },
+      "PUREPRO_filter_life": { "name": "滤芯寿命" },
+      "PUREPRO_online": { "name": "在线状态" },
+      "PUREPRO_error": { "name": "错误" },
+      "SCOOPER_PRO_ULTRA_state": { "name": "状态" },
+      "SCOOPER_PRO_ULTRA_occupied": { "name": "占用状态" },
+      "SCOOPER_PRO_ULTRA_online": { "name": "在线状态" },
+      "SCOOPER_PRO_ULTRA_error": { "name": "错误" },
+      "CAT_status": { "name": "状态" },
+      "CAT_weight": { "name": "体重" },
+      "CAT_age_years": { "name": "年龄" },
+      "CAT_age_months": { "name": "月龄" },
+      "CAT_gender_label": {
         "name": "性别",
         "state": {
           "gender_male": "公猫",
@@ -125,75 +95,67 @@
           "gender_neutered_female": "已绝育母猫"
         }
       },
-      "breed": {
-        "name": "品种"
-      },
-      "birthday": {
-        "name": "生日"
-      },
-      "avatar": {
-        "name": "头像"
-      },
-      "toilet_times": {
-        "name": "如厕次数"
-      },
-      "toilet_weight_avg": {
-        "name": "平均如厕重量"
-      },
-      "pee_times": {
-        "name": "排尿次数"
-      },
-      "poo_times": {
-        "name": "排便次数"
-      },
-      "drink_times": {
-        "name": "饮水次数"
-      },
-      "diet_times": {
-        "name": "进食次数"
-      },
-      "diet_intakes": {
-        "name": "进食量"
-      },
-      "sport_active_duration": {
-        "name": "运动时长"
-      }
+      "CAT_breed": { "name": "品种" },
+      "CAT_birthday": { "name": "生日" },
+      "CAT_avatar": { "name": "头像" },
+      "CAT_toilet_times": { "name": "如厕次数" },
+      "CAT_toilet_weight_avg": { "name": "平均如厕重量" },
+      "CAT_pee_times": { "name": "排尿次数" },
+      "CAT_poo_times": { "name": "排便次数" },
+      "CAT_drink_times": { "name": "饮水次数" },
+      "CAT_diet_times": { "name": "进食次数" },
+      "CAT_diet_intakes": { "name": "进食量" },
+      "CAT_sport_active_duration": { "name": "运动时长" }
     },
     "binary_sensor": {
-      "occupied": {
-        "name": "占用"
-      },
-      "online": {
-        "name": "在线"
-      },
-      "uv_active": {
-        "name": "紫外线杀菌"
-      },
-      "heating": {
-        "name": "加热中"
-      },
-      "light_active": {
-        "name": "指示灯"
-      },
-      "hair_cleaning": {
-        "name": "毛发清洁"
-      }
+      "C08_occupied": { "name": "占用" },
+      "C08_online": { "name": "在线" },
+      "SCOOPER_occupied": { "name": "占用" },
+      "SCOOPER_online": { "name": "在线" },
+      "SCOOPER_uv_active": { "name": "紫外线杀菌" },
+      "SCOOPER_heating": { "name": "加热中" },
+      "SCOOPER_light_active": { "name": "指示灯" },
+      "SCOOPER_hair_cleaning": { "name": "毛发清洁" },
+      "LITTER_BOX_599_occupied": { "name": "占用" },
+      "LITTER_BOX_599_online": { "name": "在线" },
+      "LITTER_BOX_599_uv_active": { "name": "紫外线杀菌" },
+      "LITTER_BOX_599_heating": { "name": "加热中" },
+      "LITTER_BOX_599_light_active": { "name": "指示灯" },
+      "LITTER_BOX_599_hair_cleaning": { "name": "毛发清洁" },
+      "FEEDER_online": { "name": "在线" },
+      "PUREPRO_online": { "name": "在线" },
+      "SCOOPER_PRO_ULTRA_occupied": { "name": "占用" },
+      "SCOOPER_PRO_ULTRA_online": { "name": "在线" }
     },
     "select": {
-      "mode": {
+      "C08_mode": {
         "name": "模式",
         "state": {
           "mode_auto": "自动",
           "mode_manual": "手动",
           "mode_time": "定时",
-          "mode_empty": "清空",
-          "mode_scheduled": "计划",
-          "mode_flowing": "流动模式",
-          "mode_eco": "节能模式",
-          "mode_smart": "智能模式"
+          "mode_empty": "清空"
         }
       },
-      "action": {
+      "C08_action": {
+        "name": "操作",
+        "state": {
+          "action_pause": "暂停",
+          "action_start": "启动",
+          "action_cleaning": "清理中",
+          "action_clean": "清理",
+          "action_cancel": "取消"
+        }
+      },
+      "SCOOPER_mode": {
+        "name": "模式",
+        "state": {
+          "mode_auto": "自动",
+          "mode_manual": "手动",
+          "mode_empty": "清空"
+        }
+      },
+      "SCOOPER_action": {
         "name": "操作",
         "state": {
           "action_pause": "暂停",
@@ -201,22 +163,44 @@
           "action_cleaning": "清理中",
           "action_clean": "清理",
           "action_cancel": "取消",
-          "action_pave": "铺平",
-          "action_clean_start": "清理：开始",
-          "action_clean_pause": "清理：暂停",
-          "action_clean_cancel": "清理：取消",
-          "action_pave_start": "铺平：开始",
-          "action_pave_pause": "铺平：暂停"
+          "action_pave": "铺平"
         }
       },
-      "garbage": {
+      "SCOOPER_garbage": {
         "name": "垃圾处理",
         "state": {
           "garbage_change_bag": "换袋",
           "garbage_reset": "重置"
         }
       },
-      "box_full_sensitivity": {
+      "LITTER_BOX_599_mode": {
+        "name": "模式",
+        "state": {
+          "mode_auto": "自动",
+          "mode_manual": "手动",
+          "mode_time": "定时",
+          "mode_empty": "清空"
+        }
+      },
+      "LITTER_BOX_599_action": {
+        "name": "操作",
+        "state": {
+          "action_pause": "暂停",
+          "action_start": "启动",
+          "action_cleaning": "清理中",
+          "action_clean": "清理",
+          "action_cancel": "取消",
+          "action_pave": "铺平"
+        }
+      },
+      "LITTER_BOX_599_garbage": {
+        "name": "垃圾处理",
+        "state": {
+          "garbage_change_bag": "换袋",
+          "garbage_reset": "重置"
+        }
+      },
+      "LITTER_BOX_599_box_full_sensitivity": {
         "name": "满盒灵敏度",
         "state": {
           "box_level_1": "级别 1",
@@ -225,100 +209,144 @@
           "box_level_4": "级别 4"
         }
       },
-      "litter_type": {
+      "LITTER_BOX_599_litter_type": {
         "name": "猫砂类型",
         "state": {
           "litter_bentonite": "膨润土",
           "litter_mixed": "混合"
         }
       },
-      "safe_time": {
-        "name": "安全时间"
+      "FEEDER_mode": {
+        "name": "模式",
+        "state": {
+          "mode_scheduled": "计划",
+          "mode_manual": "手动",
+          "mode_eco": "节能模式"
+        }
+      },
+      "FEEDER_action": {
+        "name": "操作",
+        "state": {
+          "action_pause": "暂停",
+          "action_start": "启动"
+        }
+      },
+      "PUREPRO_mode": {
+        "name": "模式",
+        "state": {
+          "mode_auto": "自动",
+          "mode_smart": "智能模式",
+          "mode_flowing": "流动模式"
+        }
+      },
+      "PUREPRO_action": {
+        "name": "操作",
+        "state": {
+          "action_pause": "暂停",
+          "action_start": "启动"
+        }
+      },
+      "SCOOPER_PRO_ULTRA_mode": {
+        "name": "模式",
+        "state": {
+          "mode_auto": "自动",
+          "mode_manual": "手动",
+          "mode_empty": "清空"
+        }
+      },
+      "SCOOPER_PRO_ULTRA_action": {
+        "name": "操作",
+        "state": {
+          "action_pause": "暂停",
+          "action_start": "启动",
+          "action_clean": "清理",
+          "action_cancel": "取消"
+        }
+      },
+      "SCOOPER_PRO_ULTRA_garbage": {
+        "name": "垃圾处理",
+        "state": {
+          "garbage_change_bag": "换袋",
+          "garbage_reset": "重置"
+        }
       }
     },
     "switch": {
-      "quiet_mode": {
-        "name": "静音模式"
-      },
-      "child_lock": {
-        "name": "童锁"
-      },
-      "light": {
-        "name": "灯光"
-      },
-      "tone": {
-        "name": "提示音"
-      },
-      "auto_burial": {
-        "name": "自动掩埋"
-      },
-      "continuous_cleaning": {
-        "name": "连续清理"
-      },
-      "indicator_light": {
-        "name": "指示灯"
-      },
-      "keypad_tone": {
-        "name": "按键音"
-      },
-      "auto_pet_weight_update": {
-        "name": "自动更新体重"
-      },
-      "kitty_model": {
-        "name": "幼猫模式"
-      },
-      "notice_cat_came": {
-        "name": "通知：猫咪来了"
-      },
-      "notice_box_full": {
-        "name": "通知：猫砂盆满了"
-      },
-      "notice_replace_garbage_bag": {
-        "name": "通知：更换垃圾袋"
-      },
-      "notice_wash_scooper": {
-        "name": "通知：清洗铲子"
-      },
-      "notice_replace_deodorant": {
-        "name": "通知：更换除臭剂"
-      },
-      "notice_litter_not_enough": {
-        "name": "通知：猫砂不足"
-      },
-      "notice_sandbox_not_enough": {
-        "name": "通知：沙池不足"
-      },
-      "notice_anti_pinch": {
-        "name": "通知：防夹保护"
-      },
-      "notice_firmware_updated": {
-        "name": "通知：固件已更新"
-      }
+      "C08_quiet_mode": { "name": "静音模式" },
+      "C08_child_lock": { "name": "童锁" },
+      "C08_light": { "name": "灯光" },
+      "C08_tone": { "name": "提示音" },
+      "C08_auto_burial": { "name": "自动掩埋" },
+      "C08_continuous_cleaning": { "name": "连续清理" },
+      "SCOOPER_quiet_mode": { "name": "静音模式" },
+      "SCOOPER_child_lock": { "name": "童锁" },
+      "SCOOPER_light": { "name": "灯光" },
+      "SCOOPER_tone": { "name": "提示音" },
+      "SCOOPER_auto_burial": { "name": "自动掩埋" },
+      "SCOOPER_continuous_cleaning": { "name": "连续清理" },
+      "SCOOPER_indicator_light": { "name": "指示灯" },
+      "SCOOPER_keypad_tone": { "name": "按键音" },
+      "SCOOPER_auto_pet_weight_update": { "name": "自动更新体重" },
+      "SCOOPER_kitty_model": { "name": "幼猫模式" },
+      "LITTER_BOX_599_quiet_mode": { "name": "静音模式" },
+      "LITTER_BOX_599_child_lock": { "name": "童锁" },
+      "LITTER_BOX_599_light": { "name": "灯光" },
+      "LITTER_BOX_599_tone": { "name": "提示音" },
+      "LITTER_BOX_599_auto_burial": { "name": "自动掩埋" },
+      "LITTER_BOX_599_continuous_cleaning": { "name": "连续清理" },
+      "LITTER_BOX_599_indicator_light": { "name": "指示灯" },
+      "LITTER_BOX_599_keypad_tone": { "name": "按键音" },
+      "LITTER_BOX_599_auto_pet_weight_update": { "name": "自动更新体重" },
+      "LITTER_BOX_599_kitty_model": { "name": "幼猫模式" },
+      "C08_notice_cat_came": { "name": "通知：猫咪来了" },
+      "C08_notice_box_full": { "name": "通知：猫砂盆满了" },
+      "C08_notice_replace_garbage_bag": { "name": "通知：更换垃圾袋" },
+      "C08_notice_wash_scooper": { "name": "通知：清洗铲子" },
+      "C08_notice_replace_deodorant": { "name": "通知：更换除臭剂" },
+      "C08_notice_litter_not_enough": { "name": "通知：猫砂不足" },
+      "C08_notice_sandbox_not_enough": { "name": "通知：沙池不足" },
+      "C08_notice_anti_pinch": { "name": "通知：防夹保护" },
+      "C08_notice_firmware_updated": { "name": "通知：固件已更新" },
+      "SCOOPER_notice_cat_came": { "name": "通知：猫咪来了" },
+      "SCOOPER_notice_box_full": { "name": "通知：猫砂盆满了" },
+      "SCOOPER_notice_replace_garbage_bag": { "name": "通知：更换垃圾袋" },
+      "SCOOPER_notice_wash_scooper": { "name": "通知：清洗铲子" },
+      "SCOOPER_notice_replace_deodorant": { "name": "通知：更换除臭剂" },
+      "SCOOPER_notice_litter_not_enough": { "name": "通知：猫砂不足" },
+      "SCOOPER_notice_sandbox_not_enough": { "name": "通知：沙池不足" },
+      "SCOOPER_notice_anti_pinch": { "name": "通知：防夹保护" },
+      "SCOOPER_notice_firmware_updated": { "name": "通知：固件已更新" },
+      "LITTER_BOX_599_notice_cat_came": { "name": "通知：猫咪来了" },
+      "LITTER_BOX_599_notice_box_full": { "name": "通知：猫砂盆满了" },
+      "LITTER_BOX_599_notice_replace_garbage_bag": { "name": "通知：更换垃圾袋" },
+      "LITTER_BOX_599_notice_wash_scooper": { "name": "通知：清洗铲子" },
+      "LITTER_BOX_599_notice_replace_deodorant": { "name": "通知：更换除臭剂" },
+      "LITTER_BOX_599_notice_litter_not_enough": { "name": "通知：猫砂不足" },
+      "LITTER_BOX_599_notice_sandbox_not_enough": { "name": "通知：沙池不足" },
+      "LITTER_BOX_599_notice_anti_pinch": { "name": "通知：防夹保护" },
+      "LITTER_BOX_599_notice_firmware_updated": { "name": "通知：固件已更新" },
+      "FEEDER_quiet_mode": { "name": "静音模式" },
+      "FEEDER_child_lock": { "name": "童锁" },
+      "PUREPRO_quiet_mode": { "name": "静音模式" },
+      "PUREPRO_child_lock": { "name": "童锁" }
     },
     "button": {
-      "feed": {
-        "name": "喂食"
-      },
-      "reset_litter": {
-        "name": "重置猫砂"
-      },
-      "reset_deodorant": {
-        "name": "重置换味剂"
-      },
-      "clean": {
-        "name": "清理"
-      },
-      "pause": {
-        "name": "暂停"
-      },
-      "change_garbage_bag": {
-        "name": "换垃圾袋"
-      }
+      "SCOOPER_feed": { "name": "喂食" },
+      "SCOOPER_reset_litter": { "name": "重置猫砂" },
+      "SCOOPER_reset_deodorant": { "name": "重置换味剂" },
+      "SCOOPER_clean": { "name": "清理" },
+      "SCOOPER_pause": { "name": "暂停" },
+      "LITTER_BOX_599_feed": { "name": "喂食" },
+      "LITTER_BOX_599_reset_litter": { "name": "重置猫砂" },
+      "LITTER_BOX_599_reset_deodorant": { "name": "重置换味剂" },
+      "LITTER_BOX_599_clean": { "name": "清理" },
+      "LITTER_BOX_599_pause": { "name": "暂停" },
+      "LITTER_BOX_599_change_garbage_bag": { "name": "换垃圾袋" },
+      "FEEDER_feed": { "name": "喂食" },
+      "PUREPRO_feed": { "name": "喂食" }
     },
     "number": {
-      "portions": {
-        "name": "份量"
-      }
+      "FEEDER_portions": { "name": "份量" }
     }
   }
 }
