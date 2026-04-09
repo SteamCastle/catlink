@@ -623,13 +623,13 @@ class C08Device(LitterDevice):
             about_rsp,
         ) = await asyncio.gather(*requests)
 
-        self._device_stats = stats_rsp.get("data", {}).get("compareData", {})
-        self._pet_stats = pets_rsp.get("data", {}).get("cats", [])
-        self._linked_pets = linked_rsp.get("data", [])
-        self._selectable_pets = selectable_rsp.get("data", {}).get("cats", [])
-        self._wifi_info = wifi_rsp.get("data", {}).get("wifiInfo", {})
-        self.set_notice_configs(notice_rsp.get("data", {}).get("noticeConfigs", []))
-        self._about_device = about_rsp.get("data", {}).get("info", {})
+        self._device_stats = (stats_rsp or {}).get("data", {}).get("compareData", {})
+        self._pet_stats = (pets_rsp or {}).get("data", {}).get("cats", [])
+        self._linked_pets = (linked_rsp or {}).get("data", [])
+        self._selectable_pets = (selectable_rsp or {}).get("data", {}).get("cats", [])
+        self._wifi_info = (wifi_rsp or {}).get("data", {}).get("wifiInfo", {})
+        self.set_notice_configs((notice_rsp or {}).get("data", {}).get("noticeConfigs", []))
+        self._about_device = (about_rsp or {}).get("data", {}).get("info", {})
 
     def set_notice_configs(self, configs: list | None) -> None:
         """Set notice configs and update the notice map."""
