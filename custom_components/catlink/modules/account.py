@@ -121,6 +121,9 @@ class Account:
             kws["data"] = pms
         try:
             req = await self.http.request(method, url, **kws)
+            if req.status >= 400:
+                _LOGGER.error("API request failed: %s %s status=%s", method, url, req.status)
+                return None
             result = await req.json() or {}
             _LOGGER.debug("API response %s %s: %s", method, api, result)
             
@@ -134,7 +137,7 @@ class Account:
             return result
         except (ClientConnectorError, TimeoutError) as exc:  # noqa: UP041
             _LOGGER.error("Request api failed: %s", [method, url, pms, exc])
-        return {}
+            return None
 
     async def async_login(self) -> bool:
         """Login the account."""
@@ -195,10 +198,14 @@ class Account:
                 return []
         api = "token/device/union/list/sorted"
         rsp = await self.request(api, {"type": "NONE"})
+        if rsp is None:
+            return []
         eno = rsp.get("returnCode", 0)
         if eno == 1002:  # Illegal token
             if await self.async_login():
                 rsp = await self.request(api, {"type": "NONE"})
+                if rsp is None:
+                    return []
         dls = rsp.get("data", {}).get(CONF_DEVICES) or []
         if not dls:
             _LOGGER.warning("Got devices for %s failed: %s", self.phone, rsp)
@@ -214,10 +221,14 @@ class Account:
         if timezone_id:
             params["timezoneId"] = timezone_id
         rsp = await self.request(api, params)
+        if rsp is None:
+            return []
         eno = rsp.get("returnCode", 0)
         if eno == 1002:  # Illegal token
             if await self.async_login():
                 rsp = await self.request(api, params)
+                if rsp is None:
+                    return []
         cats = rsp.get("data", {}).get("cats") or []
         if not cats:
             _LOGGER.info("Got cats for %s failed: %s", self.phone, rsp)
@@ -243,10 +254,14 @@ class Account:
         if timezone_id:
             params["timezoneId"] = timezone_id
         rsp = await self.request(api, params)
+        if rsp is None:
+            return {}
         eno = rsp.get("returnCode", 0)
         if eno == 1002:  # Illegal token
             if await self.async_login():
                 rsp = await self.request(api, params)
+                if rsp is None:
+                    return {}
         return rsp.get("data") or {}
 
     @staticmethod
