@@ -85,6 +85,78 @@
       },
       "filter_life": {
         "name": "Filter Life"
+      },
+      "garbage_tobe_status": {
+        "name": "Garbage Status"
+      },
+      "knob_status": {
+        "name": "Knob Status"
+      },
+      "last_sync": {
+        "name": "Last Sync"
+      },
+      "wifi_rssi": {
+        "name": "WiFi RSSI"
+      },
+      "wifi_ssid": {
+        "name": "WiFi SSID"
+      },
+      "stats_times": {
+        "name": "Stats Times"
+      },
+      "stats_weight_avg": {
+        "name": "Stats Weight Avg"
+      },
+      "stats_duration_avg": {
+        "name": "Stats Duration Avg"
+      },
+      "notice_config_count": {
+        "name": "Notice Config Count"
+      },
+      "pet_stats_count": {
+        "name": "Pet Stats Count"
+      },
+      "gender_label": {
+        "name": "Gender",
+        "state": {
+          "gender_male": "Male",
+          "gender_female": "Female",
+          "gender_neutered_male": "Neutered male",
+          "gender_neutered_female": "Neutered female"
+        }
+      },
+      "breed": {
+        "name": "Breed"
+      },
+      "birthday": {
+        "name": "Birthday"
+      },
+      "avatar": {
+        "name": "Avatar"
+      },
+      "toilet_times": {
+        "name": "Toilet Times"
+      },
+      "toilet_weight_avg": {
+        "name": "Toilet Weight Avg"
+      },
+      "pee_times": {
+        "name": "Pee Times"
+      },
+      "poo_times": {
+        "name": "Poo Times"
+      },
+      "drink_times": {
+        "name": "Drink Times"
+      },
+      "diet_times": {
+        "name": "Diet Times"
+      },
+      "diet_intakes": {
+        "name": "Diet Intakes"
+      },
+      "sport_active_duration": {
+        "name": "Sport Active Duration"
       }
     },
     "binary_sensor": {
@@ -111,21 +183,57 @@
       "mode": {
         "name": "Mode",
         "state": {
-          "auto": "Auto",
-          "manual": "Manual",
-          "time": "Time",
-          "empty": "Empty"
+          "mode_auto": "Auto",
+          "mode_manual": "Manual",
+          "mode_time": "Time",
+          "mode_empty": "Empty",
+          "mode_scheduled": "Scheduled",
+          "mode_flowing": "Flowing mode",
+          "mode_eco": "Eco-mode",
+          "mode_smart": "Smart mode"
         }
       },
       "action": {
         "name": "Action",
         "state": {
-          "pause": "Pause",
-          "start": "Start",
-          "clean": "Clean",
-          "cancel": "Cancel",
-          "pave": "Pave"
+          "action_pause": "Pause",
+          "action_start": "Start",
+          "action_cleaning": "Cleaning",
+          "action_clean": "Clean",
+          "action_cancel": "Cancel",
+          "action_pave": "Pave",
+          "action_clean_start": "Clean: Start",
+          "action_clean_pause": "Clean: Pause",
+          "action_clean_cancel": "Clean: Cancel",
+          "action_pave_start": "Pave: Start",
+          "action_pave_pause": "Pave: Pause"
         }
+      },
+      "garbage": {
+        "name": "Garbage",
+        "state": {
+          "garbage_change_bag": "Change Bag",
+          "garbage_reset": "Reset"
+        }
+      },
+      "box_full_sensitivity": {
+        "name": "Box Full Sensitivity",
+        "state": {
+          "box_level_1": "Level 1",
+          "box_level_2": "Level 2",
+          "box_level_3": "Level 3",
+          "box_level_4": "Level 4"
+        }
+      },
+      "litter_type": {
+        "name": "Litter Type",
+        "state": {
+          "litter_bentonite": "Bentonite",
+          "litter_mixed": "Mixed"
+        }
+      },
+      "safe_time": {
+        "name": "Safe Time"
       }
     },
     "switch": {
@@ -140,6 +248,51 @@
       },
       "tone": {
         "name": "Tone"
+      },
+      "auto_burial": {
+        "name": "Auto Burial"
+      },
+      "continuous_cleaning": {
+        "name": "Continuous Cleaning"
+      },
+      "indicator_light": {
+        "name": "Indicator Light"
+      },
+      "keypad_tone": {
+        "name": "Keypad Tone"
+      },
+      "auto_pet_weight_update": {
+        "name": "Auto Pet Weight Update"
+      },
+      "kitty_model": {
+        "name": "Kitty Model"
+      },
+      "notice_cat_came": {
+        "name": "Notice: Cat Came"
+      },
+      "notice_box_full": {
+        "name": "Notice: Box Full"
+      },
+      "notice_replace_garbage_bag": {
+        "name": "Notice: Replace Garbage Bag"
+      },
+      "notice_wash_scooper": {
+        "name": "Notice: Wash Scooper"
+      },
+      "notice_replace_deodorant": {
+        "name": "Notice: Replace Deodorant"
+      },
+      "notice_litter_not_enough": {
+        "name": "Notice: Litter Not Enough"
+      },
+      "notice_sandbox_not_enough": {
+        "name": "Notice: Sandbox Not Enough"
+      },
+      "notice_anti_pinch": {
+        "name": "Notice: Anti Pinch"
+      },
+      "notice_firmware_updated": {
+        "name": "Notice: Firmware Updated"
       }
     },
     "button": {

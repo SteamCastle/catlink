@@ -47,15 +47,15 @@ DEFAULT_QUIET_START = time(22, 0)
 DEFAULT_QUIET_END = time(7, 0)
 
 NOTICE_ITEMS: dict[str, tuple[str, str]] = {
-    "cat_came": ("LITTERBOX_599_CAT_CAME", "Cat came"),
-    "box_full": ("LITTERBOX_599_BOX_FULL", "Box full"),
-    "replace_garbage_bag": ("REPLACE_GARBAGE_BAG", "Replace garbage bag"),
-    "wash_scooper": ("WASH_SCOOPER", "Wash scooper"),
-    "replace_deodorant": ("REPLACE_DEODORANT", "Replace deodorant"),
-    "litter_not_enough": ("LITTERBOX_599_CAT_LITTER_NOT_ENOUGH", "Litter not enough"),
-    "sandbox_not_enough": ("LITTERBOX_599_SANDBOX_NOT_ENOUGHT", "Sandbox not enough"),
-    "anti_pinch": ("LITTERBOX_599_ANTI_PINCH", "Anti pinch"),
-    "firmware_updated": ("LITTERBOX_599_FIRMWARE_UPDATED", "Firmware updated"),
+    "cat_came": ("LITTERBOX_599_CAT_CAME", "notice_cat_came"),
+    "box_full": ("LITTERBOX_599_BOX_FULL", "notice_box_full"),
+    "replace_garbage_bag": ("REPLACE_GARBAGE_BAG", "notice_replace_garbage_bag"),
+    "wash_scooper": ("WASH_SCOOPER", "notice_wash_scooper"),
+    "replace_deodorant": ("REPLACE_DEODORANT", "notice_replace_deodorant"),
+    "litter_not_enough": ("LITTERBOX_599_CAT_LITTER_NOT_ENOUGH", "notice_litter_not_enough"),
+    "sandbox_not_enough": ("LITTERBOX_599_SANDBOX_NOT_ENOUGHT", "notice_sandbox_not_enough"),
+    "anti_pinch": ("LITTERBOX_599_ANTI_PINCH", "notice_anti_pinch"),
+    "firmware_updated": ("LITTERBOX_599_FIRMWARE_UPDATED", "notice_firmware_updated"),
 }
 
 
@@ -95,9 +95,9 @@ class C08Device(LitterDevice):
     def modes(self) -> dict:
         """Return the modes of the device."""
         return {
-            "00": "auto",
-            "01": "manual",
-            "02": "scheduled",
+            "00": "mode_auto",
+            "01": "mode_manual",
+            "02": "mode_scheduled",
         }
 
     @property
@@ -109,8 +109,8 @@ class C08Device(LitterDevice):
     def litter_types(self) -> dict:
         """Return the litter types."""
         return {
-            "00": "Bentonite",
-            "02": "Mixed",
+            "00": "litter_bentonite",
+            "02": "litter_mixed",
         }
 
     @property
@@ -339,7 +339,6 @@ class C08Device(LitterDevice):
         for slug, (item_code, label) in NOTICE_ITEMS.items():
             switches[f"notice_{slug}"] = {
                 "icon": "mdi:bell",
-                "name": f"Notice: {label}",
                 "async_turn_on": partial(self.async_set_notice, item_code, True),
                 "async_turn_off": partial(self.async_set_notice, item_code, False),
             }
@@ -665,11 +664,11 @@ class C08Device(LitterDevice):
     def _action_options(self) -> dict[str, tuple[str, str]]:
         """Return C08 action options mapping."""
         return {
-            "Clean: start": ("RUN", "CLEAN"),
-            "Clean: pause": ("PAUSE", "CLEAN"),
-            "Clean: cancel": ("CANCEL", "CLEAN"),
-            "Pave: start": ("RUN", "PAVE"),
-            "Pave: pause": ("PAUSE", "PAVE"),
+            "action_clean_start": ("RUN", "CLEAN"),
+            "action_clean_pause": ("PAUSE", "CLEAN"),
+            "action_clean_cancel": ("CANCEL", "CLEAN"),
+            "action_pave_start": ("RUN", "PAVE"),
+            "action_pave_pause": ("PAUSE", "PAVE"),
         }
 
     def _quiet_time_range(self) -> tuple[time, time]:

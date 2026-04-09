@@ -220,7 +220,7 @@ class Account:
                 rsp = await self.request(api, params)
         cats = rsp.get("data", {}).get("cats") or []
         if not cats:
-            _LOGGER.warning("Got cats for %s failed: %s", self.phone, rsp)
+            _LOGGER.info("Got cats for %s failed: %s", self.phone, rsp)
         return cats
 
     async def get_cat_summary_simple(

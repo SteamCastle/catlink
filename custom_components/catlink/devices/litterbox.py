@@ -30,35 +30,35 @@ class LitterBox(LitterDevice):
     def modes(self) -> dict:
         """Return the modes."""
         return {
-            "00": "auto",
-            "01": "manual",
-            "02": "time",
+            "00": "mode_auto",
+            "01": "mode_manual",
+            "02": "mode_time",
         }
 
     @property
     def actions(self) -> dict:
         """Return the actions."""
         return {
-            "01": "Cleaning",
-            "00": "Pause",
+            "01": "action_cleaning",
+            "00": "action_pause",
         }
 
     @property
     def garbage_actions(self) -> dict:
         """Return the garbage actions."""
         return {
-            "00": "Change Bag",
-            "01": "Reset",
+            "00": "garbage_change_bag",
+            "01": "garbage_reset",
         }
 
     @property
     def box_full_levels(self) -> dict:
         """Return the box full sensitivity levels."""
         return {
-            "LEVEL_01": "Level 1",
-            "LEVEL_02": "Level 2",
-            "LEVEL_03": "Level 3",
-            "LEVEL_04": "Level 4",
+            "LEVEL_01": "box_level_1",
+            "LEVEL_02": "box_level_2",
+            "LEVEL_03": "box_level_3",
+            "LEVEL_04": "box_level_4",
         }
 
     @property
@@ -402,7 +402,7 @@ class LitterBox(LitterDevice):
 
     async def select_action(self, action, **kwargs) -> bool:
         """Select the device action."""
-        if "Garbage Bag" in action:
+        if action == "garbage_change_bag":
             return await self.changeBag()
         api = "token/litterbox/actionCmd"
         val = None
@@ -432,7 +432,7 @@ class LitterBox(LitterDevice):
         """Change the garbage bag."""
         api = "token/litterbox/replaceGarbageBagCmd"
         pms = {
-            "enable": "1" if mode == "Change Bag" else "0",
+            "enable": "1" if mode == "garbage_change_bag" else "0",
             "deviceId": self.id,
         }
         rdt = await self.account.request(api, pms, "POST")
@@ -479,12 +479,10 @@ class LitterBox(LitterDevice):
         return {
             "reset_litter": {
                 "icon": "mdi:shaker-outline",
-                "name": "Reset litter",
                 "async_press": self.async_reset_litter,
             },
             "reset_deodorant": {
                 "icon": "mdi:spray-bottle",
-                "name": "Reset deodorant",
                 "async_press": self.async_reset_deodorant,
             },
         }

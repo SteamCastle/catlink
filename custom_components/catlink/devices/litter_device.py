@@ -105,7 +105,8 @@ class LitterDevice(LogsMixin, Device):
     def deodorant_countdown(self) -> int:
         """Return the deodorant countdown."""
         try:
-            return int(self.detail.get("deodorantCountdown", 0))
+            value = self.detail.get("deodorantCountdown")
+            return int(value) if value is not None else 0
         except Exception as exc:
             _LOGGER.error("Get deodorant countdown failed: %s", exc)
             return 0

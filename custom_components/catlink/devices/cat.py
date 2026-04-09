@@ -14,10 +14,10 @@ if TYPE_CHECKING:
 
 
 GENDER_LABELS: dict[int, str] = {
-    1: "Male",
-    2: "Female",
-    3: "Neutered male",
-    4: "Neutered female",
+    1: "gender_male",
+    2: "gender_female",
+    3: "gender_neutered_male",
+    4: "gender_neutered_female",
 }
 
 

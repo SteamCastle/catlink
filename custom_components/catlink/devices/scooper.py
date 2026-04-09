@@ -34,18 +34,18 @@ class ScooperDevice(LitterDevice):
     def modes(self) -> dict:
         """Return the modes of the device."""
         return {
-            "00": "auto",
-            "01": "manual",
-            "02": "time",
-            "03": "empty",
+            "00": "mode_auto",
+            "01": "mode_manual",
+            "02": "mode_time",
+            "03": "mode_empty",
         }
 
     @property
     def actions(self) -> dict:
         """Return the actions of the device."""
         return {
-            "00": "pause",
-            "01": "start",
+            "00": "action_pause",
+            "01": "action_start",
         }
 
     @property

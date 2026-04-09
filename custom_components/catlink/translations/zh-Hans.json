@@ -115,6 +115,48 @@
       },
       "pet_stats_count": {
         "name": "宠物统计数"
+      },
+      "gender_label": {
+        "name": "性别",
+        "state": {
+          "gender_male": "公猫",
+          "gender_female": "母猫",
+          "gender_neutered_male": "已绝育公猫",
+          "gender_neutered_female": "已绝育母猫"
+        }
+      },
+      "breed": {
+        "name": "品种"
+      },
+      "birthday": {
+        "name": "生日"
+      },
+      "avatar": {
+        "name": "头像"
+      },
+      "toilet_times": {
+        "name": "如厕次数"
+      },
+      "toilet_weight_avg": {
+        "name": "平均如厕重量"
+      },
+      "pee_times": {
+        "name": "排尿次数"
+      },
+      "poo_times": {
+        "name": "排便次数"
+      },
+      "drink_times": {
+        "name": "饮水次数"
+      },
+      "diet_times": {
+        "name": "进食次数"
+      },
+      "diet_intakes": {
+        "name": "进食量"
+      },
+      "sport_active_duration": {
+        "name": "运动时长"
       }
     },
     "binary_sensor": {
@@ -141,40 +183,53 @@
       "mode": {
         "name": "模式",
         "state": {
-          "auto": "自动",
-          "manual": "手动",
-          "time": "定时",
-          "empty": "清空",
-          "scheduled": "计划"
+          "mode_auto": "自动",
+          "mode_manual": "手动",
+          "mode_time": "定时",
+          "mode_empty": "清空",
+          "mode_scheduled": "计划",
+          "mode_flowing": "流动模式",
+          "mode_eco": "节能模式",
+          "mode_smart": "智能模式"
         }
       },
       "action": {
         "name": "操作",
         "state": {
-          "pause": "暂停",
-          "start": "启动",
-          "Cleaning": "清理中",
-          "Pause": "暂停",
-          "clean": "清理",
-          "cancel": "取消",
-          "pave": "铺平"
+          "action_pause": "暂停",
+          "action_start": "启动",
+          "action_cleaning": "清理中",
+          "action_clean": "清理",
+          "action_cancel": "取消",
+          "action_pave": "铺平",
+          "action_clean_start": "清理：开始",
+          "action_clean_pause": "清理：暂停",
+          "action_clean_cancel": "清理：取消",
+          "action_pave_start": "铺平：开始",
+          "action_pave_pause": "铺平：暂停"
         }
       },
       "garbage": {
-        "name": "垃圾盒",
+        "name": "垃圾处理",
         "state": {
-          "Change Bag": "换袋",
-          "Reset": "重置"
+          "garbage_change_bag": "换袋",
+          "garbage_reset": "重置"
         }
       },
       "box_full_sensitivity": {
-        "name": "满盒灵敏度"
+        "name": "满盒灵敏度",
+        "state": {
+          "box_level_1": "级别 1",
+          "box_level_2": "级别 2",
+          "box_level_3": "级别 3",
+          "box_level_4": "级别 4"
+        }
       },
       "litter_type": {
         "name": "猫砂类型",
         "state": {
-          "Bentonite": "膨润土",
-          "Mixed": "混合"
+          "litter_bentonite": "膨润土",
+          "litter_mixed": "混合"
         }
       },
       "safe_time": {
@@ -211,6 +266,33 @@
       },
       "kitty_model": {
         "name": "幼猫模式"
+      },
+      "notice_cat_came": {
+        "name": "通知：猫咪来了"
+      },
+      "notice_box_full": {
+        "name": "通知：猫砂盆满了"
+      },
+      "notice_replace_garbage_bag": {
+        "name": "通知：更换垃圾袋"
+      },
+      "notice_wash_scooper": {
+        "name": "通知：清洗铲子"
+      },
+      "notice_replace_deodorant": {
+        "name": "通知：更换除臭剂"
+      },
+      "notice_litter_not_enough": {
+        "name": "通知：猫砂不足"
+      },
+      "notice_sandbox_not_enough": {
+        "name": "通知：沙池不足"
+      },
+      "notice_anti_pinch": {
+        "name": "通知：防夹保护"
+      },
+      "notice_firmware_updated": {
+        "name": "通知：固件已更新"
       }
     },
     "button": {
