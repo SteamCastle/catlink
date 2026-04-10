@@ -264,6 +264,36 @@ class Account:
                     return {}
         return rsp.get("data") or {}
 
+    async def get_cat_detail(self, pet_id: str) -> dict:
+        """Get cat detail including avatar.
+
+        Args:
+            pet_id: The pet ID to fetch details for
+
+        Returns:
+            Cat detail dict or empty dict if failed
+        """
+        if not self.token:
+            if not await self.async_login():
+                return {}
+
+        # Try possible API endpoints
+        api = "token/pet/detail"
+        params = {"petId": pet_id}
+
+        rsp = await self.request(api, params)
+        if rsp is None:
+            return {}
+
+        eno = rsp.get("returnCode", 0)
+        if eno == 1002:  # Illegal token
+            if await self.async_login():
+                rsp = await self.request(api, params)
+                if rsp is None:
+                    return {}
+
+        return rsp.get("data") or {}
+
     @staticmethod
     def params_sign(pms: dict) -> str:
         """Sign the params."""

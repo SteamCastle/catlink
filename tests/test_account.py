@@ -492,3 +492,59 @@ class TestAccountRequestErrors:
         result = await account.request("token/device/list")
 
         assert result == {}
+
+
+class TestGetCatDetail:
+    """Tests for get_cat_detail method."""
+
+    @pytest.mark.usefixtures("enable_custom_integrations")
+    async def test_get_cat_detail_success(
+        self, hass, account_config, mock_http_session
+    ) -> None:
+        """Test get_cat_detail returns cat data."""
+        account = Account(hass, account_config)
+        account.http = mock_http_session
+
+        mock_http_session.request = AsyncMock(
+            return_value=AsyncMock(
+                status=200,
+                json=AsyncMock(
+                    return_value={
+                        "returnCode": 0,
+                        "data": {
+                            "id": "548334",
+                            "petName": "土豆🥔",
+                            "avatar": "https://example.com/avatar.jpg",
+                        },
+                    }
+                ),
+            )
+        )
+
+        result = await account.get_cat_detail("548334")
+
+        assert result["id"] == "548334"
+        assert result["petName"] == "土豆🥔"
+
+    @pytest.mark.usefixtures("enable_custom_integrations")
+    async def test_get_cat_detail_returns_empty_on_failure(
+        self, hass, account_config, mock_http_session
+    ) -> None:
+        """Test get_cat_detail returns empty dict on API failure."""
+        account = Account(hass, account_config)
+        account.http = mock_http_session
+
+        mock_http_session.request = AsyncMock(
+            return_value=AsyncMock(
+                status=200,
+                json=AsyncMock(
+                    return_value={
+                        "returnCode": 500,
+                        "data": None,
+                    }
+                ),
+            )
+        )
+
+        result = await account.get_cat_detail("548334")
+        assert result == {}
