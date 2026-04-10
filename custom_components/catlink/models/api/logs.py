@@ -13,3 +13,9 @@ class LogEntry(BaseModel):
     firstSection: str = ""
     secondSection: str = ""
     errkey: str = ""
+    id: str = ""
+    type: str = ""
+    unrecognized: bool = False
+    modifyFlag: bool = False
+    snFlag: int = 0
+    petId: str = "0"
