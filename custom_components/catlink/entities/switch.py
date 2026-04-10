@@ -1,12 +1,22 @@
 """Switch entity for CatLink integration."""
 
 from homeassistant.components.switch import SwitchEntity
+from homeassistant.helpers.entity import EntityDescription
 
 from .binary import CatlinkBinaryEntity
 
 
 class CatlinkSwitchEntity(CatlinkBinaryEntity, SwitchEntity):
     """Switch entity for CatLink."""
+
+    def __init__(
+        self,
+        description: EntityDescription,
+        device,
+        option=None,
+    ) -> None:
+        """Initialize the entity."""
+        super().__init__(description, device, option)
 
     async def async_turn_switch(self, on=True, **kwargs):
         """Turn the entity on/off."""

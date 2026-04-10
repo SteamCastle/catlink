@@ -3,6 +3,7 @@
 from typing import TYPE_CHECKING
 
 from homeassistant.components.select import SelectEntity
+from homeassistant.helpers.entity import EntityDescription
 
 from .base import CatlinkEntity
 
@@ -13,9 +14,14 @@ if TYPE_CHECKING:
 class CatlinkSelectEntity(CatlinkEntity, SelectEntity):
     """Select entity for CatLink."""
 
-    def __init__(self, name, device: "Device", option=None) -> None:
+    def __init__(
+        self,
+        description: EntityDescription,
+        device: "Device",
+        option=None,
+    ) -> None:
         """Initialize the entity."""
-        super().__init__(name, device, option)
+        super().__init__(description, device, option)
         self._attr_current_option = None
         self._attr_options = self._option.get("options")
 

@@ -3,6 +3,7 @@
 import asyncio
 
 from homeassistant.const import CONF_DEVICES
+from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.util import dt as dt_util
 
@@ -128,7 +129,14 @@ class DevicesCoordinator(DataUpdateCoordinator):
             if key in self._subs:
                 pass
             elif entity_cls is not None:
-                new = entity_cls(k, dvc, cfg)
+                description = EntityDescription(
+                    key=k,
+                    translation_key=f"{dvc.type}_{k}",
+                    icon=cfg.get("icon"),
+                    entity_category=cfg.get("category"),
+                    has_entity_name=True,
+                )
+                new = entity_cls(description, dvc, cfg)
             if new:
                 self._subs[key] = new
                 add([new])

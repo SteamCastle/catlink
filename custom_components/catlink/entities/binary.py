@@ -2,6 +2,7 @@
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.const import STATE_OFF, STATE_ON
+from homeassistant.helpers.entity import EntityDescription
 
 from ..devices.base import Device
 from .base import CatlinkEntity
@@ -10,16 +11,21 @@ from .base import CatlinkEntity
 class CatlinkBinaryEntity(CatlinkEntity):
     """CatlinkBinaryEntity."""
 
-    def __init__(self, name, device: Device, option=None) -> None:
+    def __init__(
+        self,
+        description: EntityDescription,
+        device: Device,
+        option=None,
+    ) -> None:
         """Initialize the entity."""
-        super().__init__(name, device, option)
+        super().__init__(description, device, option)
         self._attr_is_on = False
 
     def update(self) -> None:
         """Update the entity."""
         super().update()
-        if hasattr(self._device, self._name):
-            self._attr_is_on = bool(getattr(self._device, self._name))
+        if hasattr(self._device, self.entity_description.key):
+            self._attr_is_on = bool(getattr(self._device, self.entity_description.key))
         else:
             self._attr_is_on = False
 

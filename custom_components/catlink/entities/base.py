@@ -3,7 +3,9 @@
 import asyncio
 
 from homeassistant.components import persistent_notification
+from homeassistant.components.sensor import SensorEntityDescription
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import slugify
 
@@ -12,34 +14,28 @@ from ..devices.base import Device
 
 
 class CatlinkEntity(CoordinatorEntity):
-    """CatlinkEntity."""
+    """Base Catlink entity using EntityDescription pattern."""
 
-    def __init__(self, name, device: Device, option=None) -> None:
+    _attr_has_entity_name = True
+
+    def __init__(
+        self,
+        description: EntityDescription,
+        device: Device,
+        option=None,
+    ) -> None:
         """Initialize the entity."""
         self.coordinator = device.coordinator
         CoordinatorEntity.__init__(self, self.coordinator)
         self.account = self.coordinator.account
-        self._name = name
+        self.entity_description = description
         self._device = device
         self._option = option or {}
-        display_name = self._option.get("name", name)
-        # translation_key must be unique per device type for i18n to work correctly
-        self._attr_name = f"{device.name} {display_name}".strip()
+        # Device identifier
         self._attr_device_id = f"{device.type}_{device.mac}"
-        self._attr_unique_id = f"{self._attr_device_id}-{name}"
-        self._attr_translation_key = f"{device.type}_{name}"
         mac = device.mac[-4:] if device.mac else device.id
-        object_id = f"{device.type}_{mac}_{name}"
+        object_id = f"{device.type}_{mac}_{description.key}"
         self.entity_id = f"{DOMAIN}.{slugify(object_id)}"
-        self._attr_icon = self._option.get("icon")
-        self._attr_device_class = self._option.get("class")
-        self._attr_native_unit_of_measurement = self._option.get("unit")
-        self._attr_state_class = self._option.get("state_class")
-        entity_picture = self._option.get("entity_picture")
-        if callable(entity_picture):
-            self._attr_entity_picture = entity_picture()
-        elif entity_picture:
-            self._attr_entity_picture = entity_picture
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, self._attr_device_id)},
             name=device.name,
@@ -68,10 +64,10 @@ class CatlinkEntity(CoordinatorEntity):
 
     def update(self) -> None:
         """Update the entity."""
-        if hasattr(self._device, self._name):
-            self._attr_state = getattr(self._device, self._name)
+        if hasattr(self._device, self.entity_description.key):
+            self._attr_state = getattr(self._device, self.entity_description.key)
             _LOGGER.debug(
-                "Entity update: %s", [self.entity_id, self._name, self._attr_state]
+                "Entity update: %s", [self.entity_id, self.entity_description.key, self._attr_state]
             )
         entity_picture = self._option.get("entity_picture")
         if callable(entity_picture):
