@@ -6,13 +6,13 @@ from typing import TYPE_CHECKING
 from ..const import _LOGGER
 from ..models.additional_cfg import AdditionalDeviceConfig
 from .base import Device
-from .mixins.logs import LogsMixin
+from .mixins import CatDiscoveryMixin, LogsMixin
 
 if TYPE_CHECKING:
     from ..modules.devices_coordinator import DevicesCoordinator
 
 
-class LitterDevice(LogsMixin, Device):
+class LitterDevice(CatDiscoveryMixin, LogsMixin, Device):
     """Base class for litter-related devices (LitterBox, ScooperDevice)."""
 
     def __init__(

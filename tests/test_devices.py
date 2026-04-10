@@ -1059,3 +1059,36 @@ class TestPureProDeviceAsyncMethods:
         mock_coordinator.account.request.assert_called_once_with(
             "token/device/purepro/stats/log/top5", {"deviceId": "purepro1"}
         )
+
+
+class TestLitterDeviceCatDiscovery:
+    """Tests for cat discovery in LitterDevice."""
+
+    def test_litter_device_has_cat_discovery(
+        self, mock_coordinator, sample_device_data
+    ) -> None:
+        """Test LitterDevice has get_cat_activities_from_logs method."""
+        device = LitterBox(sample_device_data, mock_coordinator)
+        assert hasattr(device, "get_cat_activities_from_logs")
+
+    def test_litter_device_extracts_cat_activities(
+        self, mock_coordinator, sample_device_data
+    ) -> None:
+        """Test LitterDevice can extract cat activities from logs."""
+        device = LitterBox(sample_device_data, mock_coordinator)
+        device.logs = [
+            {
+                "time": "11:24",
+                "event": "土豆🥔 pooped",
+                "firstSection": "7.9kg",
+                "secondSection": "173s",
+                "id": "899877558",
+                "type": "WC",
+                "petId": "548334",
+                "snFlag": 2,
+            },
+        ]
+
+        activities = device.get_cat_activities_from_logs()
+        assert len(activities) == 1
+        assert activities[0]["name"] == "土豆🥔"
