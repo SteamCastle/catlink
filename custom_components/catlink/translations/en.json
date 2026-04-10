@@ -100,6 +100,9 @@
       "SCOOPER_PRO_ULTRA_total_clean_time": { "name": "Total Clean Count" },
       "CAT_status": { "name": "Status" },
       "CAT_weight": { "name": "Weight" },
+      "CAT_pee_count": { "name": "Pee Count" },
+      "CAT_poo_count": { "name": "Poo Count" },
+      "CAT_last_event": { "name": "Last Event" },
       "CAT_age_years": { "name": "Age" },
       "CAT_age_months": { "name": "Age (Months)" },
       "CAT_gender_label": {

@@ -100,6 +100,9 @@
       "SCOOPER_PRO_ULTRA_total_clean_time": { "name": "总清理次数" },
       "CAT_status": { "name": "状态" },
       "CAT_weight": { "name": "体重" },
+      "CAT_pee_count": { "name": "小便次数" },
+      "CAT_poo_count": { "name": "大便次数" },
+      "CAT_last_event": { "name": "最近活动" },
       "CAT_age_years": { "name": "年龄" },
       "CAT_age_months": { "name": "月龄" },
       "CAT_gender_label": {
