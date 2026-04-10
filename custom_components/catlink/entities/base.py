@@ -34,12 +34,11 @@ class CatlinkEntity(CoordinatorEntity):
         self._attr_device_id = f"{device.type}_{device.mac}"
         # unique_id is required for HA to recognize entities
         self._attr_unique_id = f"{self._attr_device_id}-{description.key}"
+        # Set translation_key for entity name lookup from translations
+        self._attr_translation_key = description.translation_key
         mac = device.mac[-4:] if device.mac else device.id
         object_id = f"{device.type}_{mac}_{description.key}"
         self.entity_id = f"{DOMAIN}.{slugify(object_id)}"
-        # With has_entity_name=True, entity name comes from translation_key lookup.
-        # Do NOT set _attr_name, or it will override translation_key.
-        self._attr_name = None
         # Apply icon from description or option fallback
         self._attr_icon = description.icon or self._option.get("icon")
         # Apply device_class/unit/state_class from description (sensor) or option

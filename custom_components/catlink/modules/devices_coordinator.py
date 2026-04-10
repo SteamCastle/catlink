@@ -150,12 +150,12 @@ class DevicesCoordinator(DataUpdateCoordinator):
                 translation_key = f"{dvc.type}_{k}"
 
                 # Build description with proper field names for each domain
+                # Note: has_entity_name is set on the entity class, not here
                 desc_kwargs = {
                     "key": k,
                     "translation_key": translation_key,
                     "icon": cfg.get("icon"),
                     "entity_category": cfg.get("category"),
-                    "has_entity_name": True,
                 }
                 # Map config keys to EntityDescription field names for sensors
                 if domain == "sensor":
