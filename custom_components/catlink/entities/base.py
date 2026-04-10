@@ -32,9 +32,35 @@ class CatlinkEntity(CoordinatorEntity):
         self._option = option or {}
         # Device identifier
         self._attr_device_id = f"{device.type}_{device.mac}"
+        # unique_id is required for HA to recognize entities
+        self._attr_unique_id = f"{self._attr_device_id}-{description.key}"
         mac = device.mac[-4:] if device.mac else device.id
         object_id = f"{device.type}_{mac}_{description.key}"
         self.entity_id = f"{DOMAIN}.{slugify(object_id)}"
+        # With has_entity_name=True, entity name comes from translation_key lookup.
+        # Do NOT set _attr_name, or it will override translation_key.
+        self._attr_name = None
+        # Apply icon from description or option fallback
+        self._attr_icon = description.icon or self._option.get("icon")
+        # Apply device_class/unit/state_class from description (sensor) or option
+        if hasattr(description, "device_class") and description.device_class:
+            self._attr_device_class = description.device_class
+        elif self._option.get("class"):
+            self._attr_device_class = self._option["class"]
+        if hasattr(description, "unit_of_measurement") and description.unit_of_measurement:
+            self._attr_native_unit_of_measurement = description.unit_of_measurement
+        elif self._option.get("unit"):
+            self._attr_native_unit_of_measurement = self._option["unit"]
+        if hasattr(description, "state_class") and description.state_class:
+            self._attr_state_class = description.state_class
+        elif self._option.get("state_class"):
+            self._attr_state_class = self._option["state_class"]
+        # Set entity picture if provided
+        entity_picture = self._option.get("entity_picture")
+        if callable(entity_picture):
+            self._attr_entity_picture = entity_picture()
+        elif entity_picture:
+            self._attr_entity_picture = entity_picture
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, self._attr_device_id)},
             name=device.name,
