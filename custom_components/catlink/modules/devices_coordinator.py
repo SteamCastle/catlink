@@ -145,15 +145,19 @@ class DevicesCoordinator(DataUpdateCoordinator):
             if key in self._subs:
                 pass
             elif entity_cls is not None:
+                # Always use device-type prefixed translation_key to match translation files
+                # Translation files use keys like "SCOOPER_state", "C08_temperature", etc.
+                translation_key = f"{dvc.type}_{k}"
+
                 # Build description with proper field names for each domain
                 desc_kwargs = {
                     "key": k,
-                    "translation_key": f"{dvc.type}_{k}",
+                    "translation_key": translation_key,
                     "icon": cfg.get("icon"),
                     "entity_category": cfg.get("category"),
                     "has_entity_name": True,
                 }
-                # Map config keys to EntityDescription field names
+                # Map config keys to EntityDescription field names for sensors
                 if domain == "sensor":
                     if cfg.get("class"):
                         desc_kwargs["device_class"] = cfg["class"]

@@ -63,11 +63,17 @@ class CatlinkEntity(CoordinatorEntity):
 
     def update(self) -> None:
         """Update the entity."""
+        # Get state from device property matching the entity key
+        state = None
         if hasattr(self._device, self.entity_description.key):
-            self._attr_state = getattr(self._device, self.entity_description.key)
-            _LOGGER.debug(
-                "Entity update: %s", [self.entity_id, self.entity_description.key, self._attr_state]
-            )
+            state = getattr(self._device, self.entity_description.key)
+        self._attr_state = state
+        _LOGGER.debug(
+            "Entity update: %s.%s = %s",
+            self.entity_id,
+            self.entity_description.key,
+            self._attr_state,
+        )
         entity_picture = self._option.get("entity_picture")
         if callable(entity_picture):
             self._attr_entity_picture = entity_picture()
