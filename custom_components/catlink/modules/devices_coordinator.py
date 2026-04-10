@@ -15,6 +15,7 @@ from homeassistant.util import dt as dt_util
 
 from .account import Account
 from ..const import _LOGGER, CONF_DEVICE_IDS, DOMAIN, SUPPORTED_DOMAINS
+from ..devices.cat import CatDevice
 from ..devices.registry import create_device
 from ..entities.registry import DOMAIN_ENTITY_CLASSES
 from ..models.additional_cfg import AdditionalDeviceConfig
@@ -127,6 +128,13 @@ class DevicesCoordinator(DataUpdateCoordinator):
             await dvc.async_init()
             for d in SUPPORTED_DOMAINS:
                 await self.update_hass_entities(d, dvc)
+
+        # Discover cats from device logs (cat activity logs)
+        await self._discover_cats_from_device_logs()
+
+        # Update cat details (avatar, etc.) from API
+        await self._update_cat_details()
+
         return self.hass.data[DOMAIN][CONF_DEVICES]
 
     async def update_hass_entities(self, domain, dvc) -> None:
@@ -177,3 +185,86 @@ class DevicesCoordinator(DataUpdateCoordinator):
                 dvc.name,
                 added_entity_ids,
             )
+
+    async def _discover_cats_from_device_logs(self) -> None:
+        """Discover cats from device logs and create/update CatDevice instances."""
+        discovered_cats: dict[str, dict] = {}  # pet_id -> {activities, source_device}
+
+        # Collect cat activities from all devices with logs
+        for device in list(self.hass.data[DOMAIN][CONF_DEVICES].values()):
+            if not hasattr(device, "get_cat_activities_from_logs"):
+                continue
+            activities = device.get_cat_activities_from_logs()
+            for activity in activities:
+                pet_id = activity["pet_id"]
+                if pet_id not in discovered_cats:
+                    discovered_cats[pet_id] = {
+                        "activities": [],
+                        "source_device": device.id,
+                    }
+                discovered_cats[pet_id]["activities"].append(activity)
+
+        # Create or update cat devices
+        for pet_id, data in discovered_cats.items():
+            cat_device_id = f"cat-{pet_id}"
+
+            # Sort activities by time (newest first)
+            activities = sorted(
+                data["activities"],
+                key=lambda x: x.get("time", ""),
+                reverse=True,
+            )
+
+            existing = self.hass.data[DOMAIN][CONF_DEVICES].get(cat_device_id)
+            if existing:
+                # Update existing cat - process all activities
+                for activity in activities:
+                    existing.update_from_activity(activity)
+            else:
+                # Create new cat - use latest activity for initialization
+                latest_activity = activities[0] if activities else None
+                if not latest_activity:
+                    continue
+
+                cat_data = {
+                    "id": cat_device_id,
+                    "pet_id": pet_id,
+                    "petName": latest_activity.get("name"),
+                    "weight": latest_activity.get("weight"),
+                    "deviceType": "CAT",
+                    "mac": f"cat-{pet_id}",
+                    "model": "Cat",
+                    "deviceName": latest_activity.get("name") or f"Cat {pet_id}",
+                }
+                cat_device = create_device(cat_data, self, None)
+                cat_device._source_device_id = data["source_device"]
+                # Process all activities
+                for activity in activities:
+                    cat_device.update_from_activity(activity)
+                self.hass.data[DOMAIN][CONF_DEVICES][cat_device_id] = cat_device
+                await cat_device.async_init()
+                for d in SUPPORTED_DOMAINS:
+                    await self.update_hass_entities(d, cat_device)
+
+    async def _update_cat_details(self) -> None:
+        """Update cat details (avatar, etc.) from API."""
+        for device in list(self.hass.data[DOMAIN][CONF_DEVICES].values()):
+            if not isinstance(device, CatDevice):
+                continue
+            if device.avatar_url:  # Skip if already has avatar
+                continue
+
+            pet_id = device.pet_id
+            if not pet_id:
+                continue
+
+            try:
+                detail = await self.account.get_cat_detail(pet_id)
+                if detail:
+                    if detail.get("avatar"):
+                        device.data["avatar"] = detail["avatar"]
+                    if detail.get("petName") and not device.discovered_name:
+                        device.data["petName"] = detail["petName"]
+            except Exception:  # noqa: BLE001
+                pass  # API may not be available, ignore errors
+
