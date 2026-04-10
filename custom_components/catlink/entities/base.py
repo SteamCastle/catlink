@@ -1,9 +1,8 @@
-"""The component."""
+"""Base entity for CatLink integration."""
 
 import asyncio
 
 from homeassistant.components import persistent_notification
-from homeassistant.components.sensor import SensorEntityDescription
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity

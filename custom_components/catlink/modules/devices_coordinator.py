@@ -2,6 +2,12 @@
 
 import asyncio
 
+from homeassistant.components.binary_sensor import BinarySensorEntityDescription
+from homeassistant.components.button import ButtonEntityDescription
+from homeassistant.components.number import NumberEntityDescription
+from homeassistant.components.select import SelectEntityDescription
+from homeassistant.components.sensor import SensorEntityDescription
+from homeassistant.components.switch import SwitchEntityDescription
 from homeassistant.const import CONF_DEVICES
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -12,6 +18,15 @@ from ..const import _LOGGER, CONF_DEVICE_IDS, DOMAIN, SUPPORTED_DOMAINS
 from ..devices.registry import create_device
 from ..entities.registry import DOMAIN_ENTITY_CLASSES
 from ..models.additional_cfg import AdditionalDeviceConfig
+
+ENTITY_DESCRIPTION_CLASSES: dict[str, type] = {
+    "sensor": SensorEntityDescription,
+    "binary_sensor": BinarySensorEntityDescription,
+    "switch": SwitchEntityDescription,
+    "select": SelectEntityDescription,
+    "button": ButtonEntityDescription,
+    "number": NumberEntityDescription,
+}
 
 
 class DevicesCoordinator(DataUpdateCoordinator):
@@ -123,19 +138,30 @@ class DevicesCoordinator(DataUpdateCoordinator):
             return
         added_entity_ids: list[str] = []
         entity_cls = DOMAIN_ENTITY_CLASSES.get(domain)
+        desc_cls = ENTITY_DESCRIPTION_CLASSES.get(domain, EntityDescription)
         for k, cfg in getattr(dvc, hdk).items():
             key = f"{domain}.{k}.{dvc.id}"
             new = None
             if key in self._subs:
                 pass
             elif entity_cls is not None:
-                description = EntityDescription(
-                    key=k,
-                    translation_key=f"{dvc.type}_{k}",
-                    icon=cfg.get("icon"),
-                    entity_category=cfg.get("category"),
-                    has_entity_name=True,
-                )
+                # Build description with proper field names for each domain
+                desc_kwargs = {
+                    "key": k,
+                    "translation_key": f"{dvc.type}_{k}",
+                    "icon": cfg.get("icon"),
+                    "entity_category": cfg.get("category"),
+                    "has_entity_name": True,
+                }
+                # Map config keys to EntityDescription field names
+                if domain == "sensor":
+                    if cfg.get("class"):
+                        desc_kwargs["device_class"] = cfg["class"]
+                    if cfg.get("state_class"):
+                        desc_kwargs["state_class"] = cfg["state_class"]
+                    if cfg.get("unit"):
+                        desc_kwargs["unit_of_measurement"] = cfg["unit"]
+                description = desc_cls(**desc_kwargs)
                 new = entity_cls(description, dvc, cfg)
             if new:
                 self._subs[key] = new
