@@ -1092,3 +1092,139 @@ class TestLitterDeviceCatDiscovery:
         activities = device.get_cat_activities_from_logs()
         assert len(activities) == 1
         assert activities[0]["name"] == "土豆🥔"
+
+
+class TestCatDeviceUpdateFromActivity:
+    """Tests for CatDevice update_from_activity method."""
+
+    @pytest.fixture
+    def sample_cat_data(self):
+        """Sample cat device data."""
+        return {
+            "id": "cat-test",
+            "pet_id": "test123",
+            "petName": "Test Cat",
+            "deviceName": "Test Cat",
+            "deviceType": "CAT",
+            "mac": "cat-test",
+        }
+
+    def test_update_from_activity_sets_name(
+        self, mock_coordinator, sample_cat_data
+    ) -> None:
+        """Test update_from_activity sets discovered name."""
+        device = CatDevice(sample_cat_data, mock_coordinator)
+        activity = {
+            "pet_id": "548334",
+            "name": "土豆🥔",
+            "type": "poo",
+            "weight": 7.9,
+            "duration": 173,
+            "time": "11:24",
+            "log_id": "899877558",
+        }
+        device.update_from_activity(activity)
+        assert device.discovered_name == "土豆🥔"
+
+    def test_update_from_activity_updates_weight(
+        self, mock_coordinator, sample_cat_data
+    ) -> None:
+        """Test update_from_activity updates weight."""
+        device = CatDevice(sample_cat_data, mock_coordinator)
+        activity = {
+            "pet_id": "548334",
+            "name": "土豆🥔",
+            "type": "poo",
+            "weight": 7.9,
+            "duration": 173,
+            "time": "11:24",
+            "log_id": "899877558",
+        }
+        device.update_from_activity(activity)
+        assert device.weight == 7.9
+
+    def test_update_from_activity_increments_poo_count(
+        self, mock_coordinator, sample_cat_data
+    ) -> None:
+        """Test update_from_activity increments poo count."""
+        device = CatDevice(sample_cat_data, mock_coordinator)
+        initial_count = device.local_poo_count
+        activity = {
+            "pet_id": "548334",
+            "name": "土豆🥔",
+            "type": "poo",
+            "weight": 7.9,
+            "duration": 173,
+            "time": "11:24",
+            "log_id": "899877558",
+        }
+        device.update_from_activity(activity)
+        assert device.local_poo_count == initial_count + 1
+
+    def test_update_from_activity_increments_pee_count(
+        self, mock_coordinator, sample_cat_data
+    ) -> None:
+        """Test update_from_activity increments pee count."""
+        device = CatDevice(sample_cat_data, mock_coordinator)
+        initial_count = device.local_pee_count
+        activity = {
+            "pet_id": "548334",
+            "name": "三多🐱",
+            "type": "pee",
+            "weight": 5.2,
+            "duration": 69,
+            "time": "10:29",
+            "log_id": "899857182",
+        }
+        device.update_from_activity(activity)
+        assert device.local_pee_count == initial_count + 1
+
+    def test_update_from_activity_skips_duplicate_log(
+        self, mock_coordinator, sample_cat_data
+    ) -> None:
+        """Test update_from_activity skips already processed log."""
+        device = CatDevice(sample_cat_data, mock_coordinator)
+        activity = {
+            "pet_id": "548334",
+            "name": "土豆🥔",
+            "type": "poo",
+            "weight": 7.9,
+            "duration": 173,
+            "time": "11:24",
+            "log_id": "899877558",
+        }
+        device.update_from_activity(activity)
+        initial_count = device.local_poo_count
+        # Same log_id should be skipped
+        device.update_from_activity(activity)
+        assert device.local_poo_count == initial_count
+
+    def test_local_counts_initialize_to_zero(
+        self, mock_coordinator, sample_cat_data
+    ) -> None:
+        """Test local counts initialize to zero."""
+        device = CatDevice(sample_cat_data, mock_coordinator)
+        assert device.local_pee_count == 0
+        assert device.local_poo_count == 0
+
+    def test_last_event_returns_formatted_string(
+        self, mock_coordinator, sample_cat_data
+    ) -> None:
+        """Test last_event returns formatted string."""
+        device = CatDevice(sample_cat_data, mock_coordinator)
+        activity = {
+            "pet_id": "548334",
+            "name": "土豆🥔",
+            "type": "poo",
+            "weight": 7.9,
+            "duration": 173,
+            "time": "11:24",
+            "log_id": "899877558",
+        }
+        device.update_from_activity(activity)
+        last_event = device.last_event
+        assert last_event is not None
+        assert "11:24" in last_event
+        assert "poo" in last_event
+        assert "7.9kg" in last_event
+        assert "173s" in last_event

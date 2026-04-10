@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import deque
 from typing import TYPE_CHECKING, Any
 
 from custom_components.catlink.devices.base import Device
@@ -32,6 +33,14 @@ class CatDevice(Device):
     ) -> None:
         """Initialize the cat device."""
         super().__init__(dat, coordinator, additional_config)
+        # Properties for log-based discovery
+        self._discovered_name: str | None = None
+        self._source_device_id: str | None = None
+        self._processed_log_ids: set[str] = set()
+        self._local_pee_count: int = 0
+        self._local_poo_count: int = 0
+        self._last_activity: dict[str, Any] | None = None
+        self._recent_weights: deque[dict[str, Any]] = deque(maxlen=50)
 
     async def async_init(self) -> None:
         """Initialize the device."""
@@ -47,6 +56,90 @@ class CatDevice(Device):
         self.detail = self.data
         self._handle_listeners()
         return self.detail
+
+    def update_from_activity(self, activity: dict[str, Any]) -> bool:
+        """Update cat data from a log activity.
+
+        Args:
+            activity: Activity dict from CatDiscoveryMixin
+
+        Returns:
+            True if activity was processed, False if skipped (duplicate)
+        """
+        log_id = activity.get("log_id", "")
+        if log_id and log_id in self._processed_log_ids:
+            return False
+
+        if log_id:
+            self._processed_log_ids.add(log_id)
+
+        # Update discovered name
+        if not self._discovered_name and activity.get("name"):
+            self._discovered_name = activity["name"]
+            self.data["petName"] = activity["name"]
+
+        # Update weight
+        weight = activity.get("weight")
+        if weight is not None:
+            if 1.0 <= weight <= 15.0:
+                self.data["weight"] = weight
+                self._recent_weights.append({
+                    "weight": weight,
+                    "time": activity.get("time"),
+                })
+
+        # Update counts
+        activity_type = activity.get("type")
+        if activity_type == "pee":
+            self._local_pee_count += 1
+        elif activity_type == "poo":
+            self._local_poo_count += 1
+
+        # Record last activity
+        self._last_activity = activity
+        return True
+
+    @property
+    def discovered_name(self) -> str | None:
+        """Return the name discovered from logs."""
+        return self._discovered_name
+
+    @property
+    def source_device_id(self) -> str | None:
+        """Return the source device ID."""
+        return self._source_device_id
+
+    @property
+    def local_pee_count(self) -> int:
+        """Return pee count from local tracking."""
+        return self._local_pee_count
+
+    @property
+    def local_poo_count(self) -> int:
+        """Return poo count from local tracking."""
+        return self._local_poo_count
+
+    @property
+    def last_event(self) -> str | None:
+        """Return the last event description."""
+        if not self._last_activity:
+            return None
+        activity_type = self._last_activity.get("type", "")
+        weight = self._last_activity.get("weight")
+        duration = self._last_activity.get("duration")
+        time_str = self._last_activity.get("time", "")
+
+        parts = [time_str]
+        if activity_type == "pee":
+            parts.append("pee")
+        elif activity_type == "poo":
+            parts.append("poo")
+        if weight:
+            parts.append(f"{weight}kg")
+        if duration:
+            parts.append(f"{duration}s")
+
+        return " ".join(parts) if parts else None
 
     @property
     def pet_id(self) -> str | None:
@@ -186,6 +279,20 @@ class CatDevice(Device):
             "diet_times": self.diet_times,
             "diet_intakes": self.diet_intakes,
             "sport_active_duration": self.sport_active_duration,
+            "local_pee_count": self._local_pee_count,
+            "local_poo_count": self._local_poo_count,
+            "source_device": self._source_device_id,
+        }
+
+    def _last_event_attrs(self) -> dict:
+        """Return last event attributes."""
+        if not self._last_activity:
+            return {}
+        return {
+            "time": self._last_activity.get("time"),
+            "type": self._last_activity.get("type"),
+            "weight": self._last_activity.get("weight"),
+            "duration": self._last_activity.get("duration"),
         }
 
     @property
@@ -193,7 +300,7 @@ class CatDevice(Device):
         """Return cat sensors."""
         return {
             "status": {
-                "icon": "mdi:information",
+                "icon": "mdi:cat",
                 "state_attrs": self.cat_attrs,
             },
             "weight": {
@@ -201,6 +308,18 @@ class CatDevice(Device):
                 "class": SensorDeviceClass.WEIGHT,
                 "state_class": SensorStateClass.MEASUREMENT,
                 "unit": UnitOfMass.KILOGRAMS,
+            },
+            "pee_count": {
+                "icon": "mdi:water",
+                "state_class": SensorStateClass.TOTAL_INCREASING,
+            },
+            "poo_count": {
+                "icon": "mdi:emoticon-poop",
+                "state_class": SensorStateClass.TOTAL_INCREASING,
+            },
+            "last_event": {
+                "icon": "mdi:history",
+                "state_attrs": self._last_event_attrs,
             },
             "age_years": {
                 "icon": "mdi:calendar",
