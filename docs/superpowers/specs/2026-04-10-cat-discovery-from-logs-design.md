@@ -294,7 +294,9 @@ async def get_cat_detail(self, pet_id: str) -> dict:
         if not await self.async_login():
             return {}
 
-    api = "token/pet/detail"  # 假设的 API 端点
+    # 尝试可能的 API 端点（需要通过抓包或 API 文档确认）
+    # 可能的端点: token/pet/detail, token/pet/info, token/pet/health/v3/cat/detail
+    api = "token/pet/detail"
     params = {"petId": pet_id}
 
     rsp = await self.request(api, params)
@@ -304,7 +306,7 @@ async def get_cat_detail(self, pet_id: str) -> dict:
     return rsp.get("data") or {}
 ```
 
-如果 API 不存在或返回空，则猫咪头像由用户通过 Home Assistant 的 `entity_picture` 配置。
+**注意**：具体的 API 端点需要在实现阶段通过抓包或查阅 API 文档确认。如果 API 不存在或返回空，则猫咪头像由用户通过 Home Assistant 的 `entity_picture` 配置。
 
 ### 5. 猫咪实体定义
 

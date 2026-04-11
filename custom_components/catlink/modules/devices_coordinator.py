@@ -266,5 +266,5 @@ class DevicesCoordinator(DataUpdateCoordinator):
                     if detail.get("petName") and not device.discovered_name:
                         device.data["petName"] = detail["petName"]
             except Exception:  # noqa: BLE001
-                pass  # API may not be available, ignore errors
+                _LOGGER.debug("Failed to update cat details for %s", pet_id)
 
