@@ -597,39 +597,54 @@ class C08Device(LitterDevice):
         return await self._handle_action_result(rdt, "Notice config")
 
     async def async_refresh_c08_extras(self) -> None:
-        """Refresh supplemental C08 data."""
-        requests = [
-            self.account.request(
-                API_LITTERBOX_STATS_DATA_COMPARE_V2, {"deviceId": self.id}
-            ),
-            self.account.request(API_LITTERBOX_STATS_CATS, {"deviceId": self.id}),
-            self.account.request(API_LITTERBOX_LINKED_PETS, {"deviceId": self.id}),
-            self.account.request(
-                API_LITTERBOX_CAT_LIST_SELECTABLE, {"deviceId": self.id}
-            ),
-            self.account.request(API_LITTERBOX_C08_WIFI_INFO, {"deviceId": self.id}),
-            self.account.request(
-                API_LITTERBOX_NOTICE_CONFIG_LIST_C08, {"deviceId": self.id}
-            ),
-            self.account.request(API_LITTERBOX_ABOUT_DEVICE, {"deviceId": self.id}),
-        ]
-        (
-            stats_rsp,
-            pets_rsp,
-            linked_rsp,
-            selectable_rsp,
-            wifi_rsp,
-            notice_rsp,
-            about_rsp,
-        ) = await asyncio.gather(*requests)
+        """Refresh supplemental C08 data with independent timeout handling."""
+        from asyncio import TimeoutError
+        from custom_components.catlink.const import _LOGGER
 
-        self._device_stats = (stats_rsp or {}).get("data", {}).get("compareData", {})
-        self._pet_stats = (pets_rsp or {}).get("data", {}).get("cats", [])
-        self._linked_pets = (linked_rsp or {}).get("data", [])
-        self._selectable_pets = (selectable_rsp or {}).get("data", {}).get("cats", [])
-        self._wifi_info = (wifi_rsp or {}).get("data", {}).get("wifiInfo", {})
-        self.set_notice_configs((notice_rsp or {}).get("data", {}).get("noticeConfigs", []))
-        self._about_device = (about_rsp or {}).get("data", {}).get("info", {})
+        async def safe_request(api: str, params: dict, key_path: str) -> tuple[str, any]:
+            """Make a request with individual timeout and error handling."""
+            try:
+                rsp = await self.account.request(api, params)
+                return (key_path, rsp)
+            except TimeoutError:
+                _LOGGER.debug("Timeout for %s in %s", api, self.name)
+                return (key_path, None)
+            except Exception:  # noqa: BLE001
+                return (key_path, None)
+
+        requests = [
+            safe_request(API_LITTERBOX_STATS_DATA_COMPARE_V2, {"deviceId": self.id}, "device_stats"),
+            safe_request(API_LITTERBOX_STATS_CATS, {"deviceId": self.id}, "pet_stats"),
+            safe_request(API_LITTERBOX_LINKED_PETS, {"deviceId": self.id}, "linked_pets"),
+            safe_request(API_LITTERBOX_CAT_LIST_SELECTABLE, {"deviceId": self.id}, "selectable_pets"),
+            safe_request(API_LITTERBOX_C08_WIFI_INFO, {"deviceId": self.id}, "wifi_info"),
+            safe_request(API_LITTERBOX_NOTICE_CONFIG_LIST_C08, {"deviceId": self.id}, "notice_config"),
+            safe_request(API_LITTERBOX_ABOUT_DEVICE, {"deviceId": self.id}, "about_device"),
+        ]
+
+        results = await asyncio.gather(*requests, return_exceptions=True)
+
+        for result in results:
+            if isinstance(result, Exception):
+                _LOGGER.debug("Exception in async_refresh_c08_extras: %s", result)
+                continue
+            key_path, rsp = result
+            data = (rsp or {}).get("data", {})
+
+            if key_path == "device_stats":
+                self._device_stats = data.get("compareData", {})
+            elif key_path == "pet_stats":
+                self._pet_stats = data.get("cats", [])
+            elif key_path == "linked_pets":
+                self._linked_pets = data.get([]) or []
+            elif key_path == "selectable_pets":
+                self._selectable_pets = data.get("cats", [])
+            elif key_path == "wifi_info":
+                self._wifi_info = data.get("wifiInfo", {})
+            elif key_path == "notice_config":
+                self.set_notice_configs(data.get("noticeConfigs", []))
+            elif key_path == "about_device":
+                self._about_device = data.get("info", {})
 
     def set_notice_configs(self, configs: list | None) -> None:
         """Set notice configs and update the notice map."""

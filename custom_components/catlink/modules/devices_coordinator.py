@@ -15,7 +15,6 @@ from homeassistant.util import dt as dt_util
 
 from .account import Account
 from ..const import _LOGGER, CONF_DEVICE_IDS, DOMAIN, SUPPORTED_DOMAINS
-from ..devices.cat import CatDevice
 from ..devices.registry import create_device
 from ..entities.registry import DOMAIN_ENTITY_CLASSES
 from ..models.additional_cfg import AdditionalDeviceConfig
@@ -132,9 +131,6 @@ class DevicesCoordinator(DataUpdateCoordinator):
         # Discover cats from device logs (cat activity logs)
         await self._discover_cats_from_device_logs()
 
-        # Update cat details (avatar, etc.) from API
-        await self._update_cat_details()
-
         return self.hass.data[DOMAIN][CONF_DEVICES]
 
     async def update_hass_entities(self, domain, dvc) -> None:
@@ -245,26 +241,4 @@ class DevicesCoordinator(DataUpdateCoordinator):
                 await cat_device.async_init()
                 for d in SUPPORTED_DOMAINS:
                     await self.update_hass_entities(d, cat_device)
-
-    async def _update_cat_details(self) -> None:
-        """Update cat details (avatar, etc.) from API."""
-        for device in list(self.hass.data[DOMAIN][CONF_DEVICES].values()):
-            if not isinstance(device, CatDevice):
-                continue
-            if device.avatar_url:  # Skip if already has avatar
-                continue
-
-            pet_id = device.pet_id
-            if not pet_id:
-                continue
-
-            try:
-                detail = await self.account.get_cat_detail(pet_id)
-                if detail:
-                    if detail.get("avatar"):
-                        device.data["avatar"] = detail["avatar"]
-                    if detail.get("petName") and not device.discovered_name:
-                        device.data["petName"] = detail["petName"]
-            except Exception:  # noqa: BLE001
-                _LOGGER.debug("Failed to update cat details for %s", pet_id)
 

@@ -35,7 +35,6 @@ def mock_account(mock_hass):
     account.get_devices = AsyncMock(return_value=[])
     account.get_cats = AsyncMock(return_value=[])
     account.get_cat_summary_simple = AsyncMock(return_value={})
-    account.get_cat_detail = AsyncMock(return_value={})
     return account
 
 
