@@ -636,7 +636,7 @@ class C08Device(LitterDevice):
             elif key_path == "pet_stats":
                 self._pet_stats = data.get("cats", [])
             elif key_path == "linked_pets":
-                self._linked_pets = data.get([]) or []
+                self._linked_pets = data or []
             elif key_path == "selectable_pets":
                 self._selectable_pets = data.get("cats", [])
             elif key_path == "wifi_info":
